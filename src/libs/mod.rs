@@ -16,7 +16,14 @@ pub mod algorithms {
 
       return least;
     }
+    /// Selection Sort Implementation
     pub fn ssort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
+      // Pretty basic steps
+      // STEP 0. Create a new empty output array
+      // STEP 2. Find the index of the value with the least value in the input array
+      // STEP 3. Remove the the element with the least value and put it in the output array
+      // STEP 4. Repeat steps until the input array runs out of element
+      // STEP 5. Return the output array
       let mut v = v.to_vec(); //
       let mut ret_v = vec![]; // becomes the sorted vector
 
@@ -27,14 +34,71 @@ pub mod algorithms {
       ret_v
     }
 
+    /// Insertion Sort Implementation
     pub fn isort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
+      /*
+      The idea is to sort the items in place
+      With a nested loop (2 loops)
+      for i - will advance the the index forward start at index 1
+        for j - will start at index i, (j = i), then start decrease j every iteration
+        condition 1 = will check if j is greater than 0 (not at the start of the array)
+        condition 2 = then check if the element index j is has lower value than the element before it
+        if it is the case, swap the value of j and the element before it
+
+      ---
+      let the input array be [0, 3, 2, 4, 1, 6, 5]
+      ---
+      STEP 0. Start the iteration of the outer at index 1
+      [3, 0, 2, 4, 1, 6, 5]
+          ^ - start here at index 1, i = 1
+      ---
+      STEP 1. Check if the array[i] (element at index 1) is less than array[n-1] (element preceding the element at index 1)
+      And if the current index is greater than 0 (check if we're not at the first element)
+      [3, 0, 2, 4, 1, 6, 5]
+       ^  ^ - array[i] (array[1])
+       |----- array[i-1] (array[0])
+       array[i] is less than array[i-1] ?
+      ---
+      STEP 2. If array[i] is less than array[i-1], swap their value
+      [0, 3, 2, 4, 1, 6, 5] -> after swap because 0 is less than 3
+       ^  ^ - array[i] (array[i-1] previously)
+       |----- array[i-1] (array[i] previously)
+      ---
+      STEP 3. Repeat STEP 1 to 2 until we exhaust the array
+      ---
+      STEP 4. When reach the last element, the whole array is sorted. Return the sorted array.
+      ---
+      Example array as the algorithm run overtime
+      [0, 3, 2, 4, 1, 6, 5]
+          ^  ^ array[i]
+          |--- array[i-1]
+          array[i] < array[i-1]? Yes. Swap the value
+      [0, 2, 3, 4, 1, 6, 5]
+       ^  ^ array[j]
+       |--- array[j-1]
+          array[j] < array[j-1]? No. Stop the inner looop
+        advance the outer loop - repeat the steps
+      */
+
+      // Convert the array into a vector
       let mut v = v.to_vec();
-      let mut ret_v = vec![];
-      let mut n = v.len();
 
-      for i in 1..n {}
+      // Save the length of the array
+      let n = v.len();
 
-      ret_v
+      for i in 1..n {
+        let mut j = i;
+
+        while j > 0 && v[j] < v[j - 1] {
+          v.swap(j, j - 1);
+          // let temp = v[j].clone();
+          // v[j] = v[j - 1].clone();
+          // v[j - 1] = temp;
+          j -= 1;
+        }
+      }
+
+      v
     }
 
     pub fn msort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
@@ -49,6 +113,43 @@ pub mod algorithms {
       let mut ret_v = vec![];
 
       ret_v
+    }
+
+    /// Implementation For Shell Sort
+    pub fn shshort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
+      /*
+      Shell Sort is an extension for insertion sort
+      Insertion Sort can take up to N-1 exchanges to determine which index an element belongs to
+      Shell Sort first partially sorts arrays with a long distance (h-sorting) first then
+      the sorting gets lower and lower every iteration until h becomes 1
+      then at that point it becomes an insertion sort but the array is is partially sorted
+      which speeds up the process
+       */
+      let mut v = v.to_vec();
+      let n = v.len();
+      let mut h = 1;
+
+      // get the largest h-sort from the length of the array
+      while h < n {
+        h = 3 * h + 1
+      }
+
+      while h >= 1 {
+        for i in h..n {
+          let mut j = i;
+          while j >= h && v[j] < v[j - h] {
+            v.swap(j, j - h);
+            // let temp = v[j].clone();
+            // v[j] = v[j - 1].clone();
+            // v[j - 1] = temp;
+
+            j -= h;
+          }
+        }
+        h /= 3;
+      }
+
+      v
     }
 
     /// Quick Sort Implementation
