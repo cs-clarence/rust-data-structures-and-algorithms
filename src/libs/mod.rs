@@ -1,6 +1,6 @@
 pub mod algorithms {
   pub mod sort {
-    pub fn find_min<T>(v: &[T]) -> usize
+    fn find_min<T>(v: &[T]) -> usize
     where
       T: PartialOrd,
     {
@@ -110,9 +110,19 @@ pub mod algorithms {
 
     pub fn bsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
       let mut v = v.to_vec();
-      let mut ret_v = vec![];
+      let mut pass = v.len() - 1;
+      while pass > 0 {
+        let mut i = 0;
+        while i < pass {
+          if v[i] > v[i + 1] {
+            v.swap(i, i + 1);
+          }
+          i += 1;
+        }
+        pass -= 1;
+      }
 
-      ret_v
+      v
     }
 
     /// Implementation For Shell Sort
@@ -121,8 +131,8 @@ pub mod algorithms {
       Shell Sort is an extension for insertion sort
       Insertion Sort can take up to N-1 exchanges to determine which index an element belongs to
       Shell Sort first partially sorts arrays with a long distance (h-sorting) first then
-      the sorting gets lower and lower every iteration until h becomes 1
-      then at that point it becomes an insertion sort but the array is is partially sorted
+      the h-sort gets lower and lower every iteration meaning distance gets lower until h becomes 1
+      then at that point it becomes an insertion sort but the array is is partially sorted where insertion sort shines
       which speeds up the process
        */
       let mut v = v.to_vec();

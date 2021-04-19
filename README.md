@@ -9,7 +9,8 @@
 
 ### Sorting Algorithms
 
-- Selection Sort
-- Insertion Sort
 - Quick Sort
 - Shell Sort
+- Insertion Sort
+- Selection Sort
+- Bubble Sort

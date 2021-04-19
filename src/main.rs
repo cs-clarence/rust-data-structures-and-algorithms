@@ -20,7 +20,7 @@ fn main() {
   let mut arr = vec![0];
   let mut gen = thread_rng();
   for &until in &[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 5000] {
-    for i in 1..until {
+    for _ in 1..until {
       arr.push(gen.gen());
     }
 
@@ -36,10 +36,13 @@ fn main() {
     benchmark(&format!("ssort with {} elements", until), &|| {
       ssort(&arr);
     });
+    benchmark(&format!("bsort with {} elements", until), &|| {
+      bsort(&arr);
+    });
   }
 
   let mut sample_vec = vec![0];
-  for i in 0..10 {
+  for _ in 0..10 {
     sample_vec.push(gen.gen());
   }
 
@@ -47,4 +50,5 @@ fn main() {
   println!("{:?}", ssort(&sample_vec));
   println!("{:?}", isort(&sample_vec));
   println!("{:?}", shshort(&sample_vec));
+  println!("{:?}", bsort(&sample_vec));
 }
