@@ -5,8 +5,6 @@
 
 ---
 
-<br/>
-
 ### Sorting Algorithms
 
 - Quick Sort
@@ -14,3 +12,9 @@
 - Insertion Sort
 - Selection Sort
 - Bubble Sort
+
+### Searching Algorithms
+
+- Binary Search
+- Front and Back Search
+- Linear Search

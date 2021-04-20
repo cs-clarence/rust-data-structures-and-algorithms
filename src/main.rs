@@ -28,7 +28,7 @@ fn main() {
       qsort(&arr);
     });
     benchmark(&format!("sshort with {} elements", until), &|| {
-      shshort(&arr);
+      shsort(&arr);
     });
     benchmark(&format!("isort with {} elements", until), &|| {
       isort(&arr);
