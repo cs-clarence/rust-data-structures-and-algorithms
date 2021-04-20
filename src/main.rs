@@ -1,6 +1,6 @@
 mod libs;
 use std::time::{Instant};
-use libs::algorithms::{sort::*};
+use libs::algorithms::{search::*, sort::*};
 use rand::prelude::*;
 
 fn benchmark(bench_msg: &str, func: &dyn Fn() -> ()) {
@@ -46,9 +46,17 @@ fn main() {
     sample_vec.push(gen.gen());
   }
 
-  println!("{:?}", qsort(&sample_vec));
-  println!("{:?}", ssort(&sample_vec));
-  println!("{:?}", isort(&sample_vec));
-  println!("{:?}", shshort(&sample_vec));
-  println!("{:?}", bsort(&sample_vec));
+  sample_vec = qsort(&sample_vec);
+
+  println!("{:?}", sample_vec);
+
+  if let Some(v) = fnbsearch(&sample_vec, &sample_vec[sample_vec.len() / 2]) {
+    println!("fnbsearch: {}", v);
+  }
+  if let Some(v) = lsearch(&sample_vec, &sample_vec[sample_vec.len() / 2]) {
+    println!("lsearch: {}", v);
+  }
+  if let Some(v) = bsearch(&sample_vec, &sample_vec[sample_vec.len() / 2]) {
+    println!("bsearch: {}", v);
+  }
 }
