@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 fn find_min<T>(v: &[T]) -> usize
 where
   T: PartialOrd,
@@ -15,6 +16,7 @@ where
   return least;
 }
 /// Selection Sort Implementation
+#[allow(dead_code)]
 pub fn ssort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
   // Pretty basic steps
   // STEP 0. Create a new empty output array
@@ -33,6 +35,7 @@ pub fn ssort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
 }
 
 /// Insertion Sort Implementation
+#[allow(dead_code)]
 pub fn isort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
   /*
   The idea is to sort the items in place
@@ -99,20 +102,57 @@ pub fn isort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
   v
 }
 
+// Merger Implemenation for Merge Sort
+#[allow(dead_code)]
+pub fn merge<T: PartialOrd + Clone>(a: &[T], b: &[T]) -> Vec<T> {
+  let mut i = 0;
+  let mut j = 0;
+  let imax = a.len();
+  let jmax = b.len();
+  let mut output_vec = vec![];
+
+  while i < imax || j < jmax {
+    if i < imax && j < jmax {
+      // println!("comparing a[{}] = {:?} and b[{}] {:?}", i, &a[i], j, &b[j]);
+      if &a[i] < &b[j] {
+        output_vec.push(a[i].clone());
+        i += 1;
+      } else {
+        output_vec.push(b[j].clone());
+        j += 1;
+      }
+    } else if i < imax {
+      output_vec.append(&mut a[i..].to_vec());
+      break;
+    } else {
+      output_vec.append(&mut b[j..].to_vec());
+      break;
+    }
+  }
+
+  output_vec
+}
+
 /// Implementation for Merge Sort
 #[allow(dead_code)]
-pub fn _msort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
-  let mut v = v.to_vec();
-  let mut ret_v = vec![];
+pub fn msort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
+  if v.len() > 1 {
+    let lo = 0;
+    let hi = v.len() - 1;
+    let mid = lo + (hi - lo) / 2;
 
-  ret_v
+    let first_half = msort(&v[lo..=mid]);
+    let second_half = msort(&v[mid + 1..=hi]);
+
+    merge(&first_half, &second_half)
+  } else {
+    v.to_vec()
+  }
 }
 
 /// Implementation for Bubble Sort
+#[allow(dead_code)]
 pub fn bsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
-  /*
-
-  */
   let mut v = v.to_vec();
   let mut pass = v.len() - 1;
   while pass > 0 {
@@ -130,6 +170,7 @@ pub fn bsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
 }
 
 /// Implementation For Shell Sort
+#[allow(dead_code)]
 pub fn shsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
   /*
   Shell Sort is an extension for insertion sort
@@ -160,13 +201,14 @@ pub fn shsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
         j -= h;
       }
     }
-    h /= 3;
+    h /= 3; // will stop the loop
   }
 
   v
 }
 
 /// Quick Sort Implementation
+#[allow(dead_code)]
 pub fn qsort<T: PartialOrd + Clone>(v: &[T]) -> Vec<T> {
   /*
   Steps with illustration:

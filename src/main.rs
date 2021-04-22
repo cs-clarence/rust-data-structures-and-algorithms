@@ -3,6 +3,7 @@ use std::time::{Instant};
 use libs::algorithms::{search::*, sort::*};
 use rand::prelude::*;
 
+#[allow(dead_code)]
 fn benchmark(bench_msg: &str, func: &dyn Fn() -> ()) {
   let start_time = Instant::now();
   println!("started benchmark: {}", bench_msg);
@@ -18,12 +19,21 @@ fn benchmark(bench_msg: &str, func: &dyn Fn() -> ()) {
 
 fn main() {
   let mut arr = vec![0];
+
   let mut gen = thread_rng();
+
   for &until in &[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 5000] {
     for _ in 1..until {
       arr.push(gen.gen());
     }
 
+    println!(
+      "====================================================================="
+    );
+
+    benchmark(&format!("msort with {} elements", until), &|| {
+      msort(&arr);
+    });
     benchmark(&format!("qsort with {} elements", until), &|| {
       qsort(&arr);
     });
@@ -39,16 +49,19 @@ fn main() {
     benchmark(&format!("bsort with {} elements", until), &|| {
       bsort(&arr);
     });
+    println!(
+      "====================================================================="
+    );
   }
 
-  let mut sample_vec = vec![0];
+  let mut sample_vec = vec![0; 0];
   for _ in 0..10 {
     sample_vec.push(gen.gen());
   }
+  println!("{:?}", qsort(&sample_vec));
+  println!("{:?}", msort(&sample_vec));
 
   sample_vec = qsort(&sample_vec);
-
-  println!("{:?}", sample_vec);
 
   if let Some(v) = fnbsearch(&sample_vec, &sample_vec[sample_vec.len() / 2]) {
     println!("fnbsearch: {}", v);
